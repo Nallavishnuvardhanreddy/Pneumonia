@@ -2,6 +2,7 @@ import streamlit as st
 from tensorflow.keras.models import load_model
 from PIL import Image, ImageOps
 import numpy as np
+import io
 
 # Disable scientific notation for clarity
 np.set_printoptions(suppress=True)
@@ -44,3 +45,17 @@ if uploaded_file is not None:
     # Display results
     st.write("Class:", class_name[2:].strip())
     st.write("Confidence Score:", confidence_score)
+
+    # Generate and display the report
+    report = f"**Classification Report**\n\n- **Class:** {class_name[2:].strip()}\n- **Confidence Score:** {confidence_score:.4f}\n"
+    
+    # Display the report in the app
+    st.text_area("Classification Report", report, height=200)
+
+    # Create a downloadable link for the report
+    st.download_button(
+        label="Download Report as Text File",
+        data=report,
+        file_name="classification_report.txt",
+        mime="text/plain"
+    )
