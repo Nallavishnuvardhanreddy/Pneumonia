@@ -15,7 +15,7 @@ pneumonia_model = load_model("./models/keras_model.h5", compile=False)
 class_names = open("./models/labels.txt", "r").readlines()
 
 # Load text generation model
-generator = pipeline('text-generation', model='gpt-2')
+generator = pipeline('text-generation', model='openai-community/gpt2')
 
 def preprocess_image(img):
     # Preprocess the image for the pneumonia model
