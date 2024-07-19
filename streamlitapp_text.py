@@ -13,7 +13,7 @@ pneumonia_model = load_model("./models/keras_model.h5", compile=False)
 
 # Load the labels (assuming you might still need them for classification purposes)
 class_names = open("./models/labels.txt", "r").readlines()
-
+class_name=''
 # Load text generation model
 generator = pipeline('text-generation', model='openai-community/gpt2')
 
@@ -36,17 +36,18 @@ def detect_pneumonia(img_array):
     severity = "Moderate" if index==1 else "None"
     return {"pneumonia_present": pneumonia_present, "severity": severity}
 
-def generate_report(pneumonia_results):
-    # Generate a report
+def generate_text(class_name):
+  if class_name == "Pneumonia":
     report = f"""
     Report Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
     
     Pneumonia Detection:
-    Pneumonia Present: {'Yes' if pneumonia_results['pneumonia_present'] else 'No'}
-    Severity: {pneumonia_results['severity'] if pneumonia_results['pneumonia_present'] else 'N/A'}
+    Pneumonia Present: Yes
+    Severity: Moderate
+    
     
     Recommendations:
-    {'Further examination required' if pneumonia_results['pneumonia_present'] else 'No further action needed'}
+    {'Further examination required'}
     """
 
     # Optionally, generate additional details using text generation
@@ -79,6 +80,8 @@ if uploaded_file is not None:
     # Generate and display the report
     report = generate_report(pneumonia_results)
     st.text_area("Automated Report", report, height=300)
+
+    st.write(generate_text(class_name))
 
     # Save the report to a file
     if st.button('Save Report'):
