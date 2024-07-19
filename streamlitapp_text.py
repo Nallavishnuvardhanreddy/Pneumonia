@@ -3,6 +3,7 @@ from tensorflow.keras.models import load_model
 from PIL import Image, ImageOps
 import numpy as np
 from transformers import pipeline
+import datetime
 # Disable scientific notation for clarity
 np.set_printoptions(suppress=True)
 
