@@ -2,14 +2,21 @@ import streamlit as st
 from tensorflow.keras.models import load_model
 from PIL import Image, ImageOps
 import numpy as np
-from transformers import pipeline
+# from transformers import pipeline
 import datetime
 # Disable scientific notation for clarity
 np.set_printoptions(suppress=True)
 
 # Load the model
 model = load_model("./models/keras_model.h5", compile=False)
-generator = pipeline('text-generation', model='gpt2')
+# generator = pipeline('text-generation', model='gpt2')
+from transformers import TFGPT2LMHeadModel, GPT2Tokenizer
+
+# Load the pre-trained GPT-2 model and tokenizer
+model_name = 'gpt2'
+model = TFGPT2LMHeadModel.from_pretrained(model_name)
+tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+
 # Load the labels
 class_names = open("./models/labels.txt", "r").readlines()
 class_name = ''
@@ -26,12 +33,19 @@ def generate_text(class_name):
     Recommendations:
     {'Further examination required'}
     """
+    input_text = "Provide additional clinical recommendations based on the: Pneumonia"
+    input_ids = tokenizer.encode(input_text, return_tensors='tf')
 
+    # Generate text
+    output = model.generate(input_ids, max_length=100, num_return_sequences=1)
+
+    # Decode the generated text
+    generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
     # Optionally, generate additional details using text generation
-    additional_info = generator("Provide additional clinical recommendations based on the: Pneumonia" , max_length=200)[0]['generated_text']
-    report += f"\nAdditional Recommendations:\n{additional_info}"
+    # additional_info = generator("" , max_length=200)[0]['generated_text']
+    # report += f"\nAdditional Recommendations:\n{additional_info}"
 
-    return report
+    return generatedd_text
 
 # Streamlit interface
 st.title("Image Classification with Keras")
@@ -68,4 +82,5 @@ if uploaded_file is not None:
     st.write("Confidence Score:", confidence_score)
 
     # Display Report.
+  if st.button("Generate Additional Recommendations:->"):
     st.write(generate_text(class_name[2:].strip()))
