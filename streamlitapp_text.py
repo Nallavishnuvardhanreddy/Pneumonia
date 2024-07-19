@@ -67,4 +67,4 @@ if uploaded_file is not None:
     st.write("Confidence Score:", confidence_score)
 
     # Display Report.
-    st.write(generate_text(class_name))
+    st.write(generate_text(class_name[2:].strip()))
