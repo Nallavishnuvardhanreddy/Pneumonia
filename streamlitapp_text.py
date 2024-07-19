@@ -54,8 +54,8 @@ if uploaded_file is not None:
         report = f"""
         Report Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
     
-        Pneumonia Detection:
-        Pneumonia Present: Yes
+        Brain Tumor Detection:
+        Brain Rumor Present: Yes
         Severity: Moderate
     
     
