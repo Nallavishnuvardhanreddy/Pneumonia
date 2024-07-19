@@ -32,7 +32,7 @@ def detect_pneumonia(img_array):
     # Example interpretation of model output
     index = np.argmax(predictions)
     class_name = class_names[index]
-    confidence_score = prediction[0][index]  # Assuming binary classification
+    confidence_score = predictions[0][index]  # Assuming binary classification
     severity = "Moderate" if index==1 else "None"
     return {"pneumonia_present": pneumonia_present, "severity": severity}
 
