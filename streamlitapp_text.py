@@ -28,7 +28,7 @@ def generate_text(class_name):
     """
 
     # Optionally, generate additional details using text generation
-    additional_info = generator("Provide additional clinical recommendations based on the following information: " + report, max_length=100)[0]['generated_text']
+    additional_info = generator("Provide additional clinical recommendations based on the: Pneumonia" , max_length=200)[0]['generated_text']
     report += f"\nAdditional Recommendations:\n{additional_info}"
 
     return report
