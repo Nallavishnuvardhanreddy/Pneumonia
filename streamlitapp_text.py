@@ -30,8 +30,10 @@ def preprocess_image(img):
 def detect_pneumonia(img_array):
     predictions = pneumonia_model.predict(img_array)
     # Example interpretation of model output
-    pneumonia_present = predictions[0][0] > 0.5  # Assuming binary classification
-    severity = "Moderate" if pneumonia_present else "None"
+    index = np.argmax(prediction)
+    class_name = class_names[index]
+    confidence_score = prediction[0][index]  # Assuming binary classification
+    severity = "Moderate" if index==1 else "None"
     return {"pneumonia_present": pneumonia_present, "severity": severity}
 
 def generate_report(pneumonia_results):
