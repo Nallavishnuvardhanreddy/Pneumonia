@@ -20,32 +20,6 @@ tokenizer = GPT2Tokenizer.from_pretrained(model_name)
 # Load the labels
 class_names = open("./models/labels.txt", "r").readlines()
 class_name = ''
-def generate_text(class_name):
-  if class_name == "Pneumonia":
-    report = f"""
-    Report Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-    
-    Pneumonia Detection:
-    Pneumonia Present: Yes
-    Severity: Moderate
-    
-    
-    Recommendations:
-    {'Further examination required'}
-    """
-    input_text = "Provide additional clinical recommendations based on the: Pneumonia"
-    input_ids = tokenizer.encode(input_text, return_tensors='tf')
-
-    # Generate text
-    output = model.generate(input_ids, max_length=100, num_return_sequences=1)
-
-    # Decode the generated text
-    generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
-    # Optionally, generate additional details using text generation
-    # additional_info = generator("" , max_length=200)[0]['generated_text']
-    # report += f"\nAdditional Recommendations:\n{additional_info}"
-
-    return generatedd_text
 
 # Streamlit interface
 st.title("Image Classification with Keras")
@@ -82,5 +56,30 @@ if uploaded_file is not None:
     st.write("Confidence Score:", confidence_score)
 
     # Display Report.
-    if st.button("Generate Additional Recommendations:->"):
+    if class_name == "Pneumonia":
+      if st.button("Generate Additional Recommendations:->"):
+        report = f"""
+        Report Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+    
+        Pneumonia Detection:
+        Pneumonia Present: Yes
+        Severity: Moderate
+    
+    
+        Recommendations:
+        {'Further examination required'}
+        """
+        input_text = "Provide additional clinical recommendations based on the: Pneumonia"
+        input_ids = tokenizer.encode(input_text, return_tensors='tf')
+
+    # Generate text
+        output = model.generate(input_ids, max_length=100, num_return_sequences=1)
+
+    # Decode the generated text
+        generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
+    # Optionally, generate additional details using text generation
+    # additional_info = generator("" , max_length=200)[0]['generated_text']
+    # report += f"\nAdditional Recommendations:\n{additional_info}"
+
+    return generatedd_text
       st.write(generate_text(class_name[2:].strip()))
