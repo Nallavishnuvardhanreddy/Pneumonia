@@ -82,5 +82,5 @@ if uploaded_file is not None:
     st.write("Confidence Score:", confidence_score)
 
     # Display Report.
-  if st.button("Generate Additional Recommendations:->"):
-    st.write(generate_text(class_name[2:].strip()))
+    if st.button("Generate Additional Recommendations:->"):
+      st.write(generate_text(class_name[2:].strip()))
