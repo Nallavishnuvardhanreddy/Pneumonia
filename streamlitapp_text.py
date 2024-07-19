@@ -56,7 +56,7 @@ if uploaded_file is not None:
     st.write("Confidence Score:", confidence_score)
 
     # Display Report.
-    if class_name == "Pneumonia":
+    if class_name[2:].strip() == "Pneumonia":
       if st.button("Generate Additional Recommendations:->"):
         report = f"""
         Report Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
@@ -80,6 +80,4 @@ if uploaded_file is not None:
     # Optionally, generate additional details using text generation
     # additional_info = generator("" , max_length=200)[0]['generated_text']
     # report += f"\nAdditional Recommendations:\n{additional_info}"
-
-    return generatedd_text
-      st.write(generate_text(class_name[2:].strip()))
+        st.write(generated_text)
