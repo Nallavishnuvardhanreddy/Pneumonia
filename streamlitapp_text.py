@@ -10,13 +10,6 @@ np.set_printoptions(suppress=True)
 # Load the model
 model = load_model("./models/keras_model.h5", compile=False)
 # generator = pipeline('text-generation', model='gpt2')
-from transformers import TFGPT2LMHeadModel, GPT2Tokenizer
-
-# Load the pre-trained GPT-2 model and tokenizer
-model_name = 'gpt2'
-model = TFGPT2LMHeadModel.from_pretrained(model_name)
-tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-
 # Load the labels
 class_names = open("./models/labels.txt", "r").readlines()
 class_name = ''
@@ -69,6 +62,14 @@ if uploaded_file is not None:
         Recommendations:
         {'Further examination required'}
         """
+
+        st.write(report)
+        from transformers import TFGPT2LMHeadModel, GPT2Tokenizer
+
+        # Load the pre-trained GPT-2 model and tokenizer
+        model_name = 'gpt2'
+        model = TFGPT2LMHeadModel.from_pretrained(model_name)
+        tokenizer = GPT2Tokenizer.from_pretrained(model_name)  
         input_text = "Provide additional clinical recommendations based on the: Pneumonia"
         input_ids = tokenizer.encode(input_text, return_tensors='tf')
 
