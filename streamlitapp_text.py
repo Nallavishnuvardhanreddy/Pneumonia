@@ -2,13 +2,13 @@ import streamlit as st
 from tensorflow.keras.models import load_model
 from PIL import Image, ImageOps
 import numpy as np
-
+from transformers import pipeline
 # Disable scientific notation for clarity
 np.set_printoptions(suppress=True)
 
 # Load the model
 model = load_model("./models/keras_model.h5", compile=False)
-
+generator = pipeline('text-generation', model='gpt2')
 # Load the labels
 class_names = open("./models/labels.txt", "r").readlines()
 class_name = ''
